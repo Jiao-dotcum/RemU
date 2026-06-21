@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import yaml
 
-from watcharb.alerter import EmailAlerter
+from watcharb.alerter import build_alerter
 from watcharb.matcher import find_arbitrage
 from watcharb.models import Listing
 from watcharb.sources.csv_source import CsvSource
@@ -15,7 +15,7 @@ from watcharb.sources.html_source import GenericHtmlSource
 def build_sources(config: dict) -> list:
     sources = []
     csv_path = config.get("sources", {}).get("manual_csv_path")
-    if csv_path:
+    if csv_path and os.path.exists(csv_path):
         sources.append(CsvSource(csv_path))
     for site_config in config.get("html_sources", []):
         sources.append(GenericHtmlSource(site_config))
@@ -34,7 +34,7 @@ def collect_listings(sources: list, watchlist: list[dict]) -> list[Listing]:
 def main():
     parser = argparse.ArgumentParser(description="Check watch listings across sources for arbitrage.")
     parser.add_argument("--config", default="config.yaml", help="Path to config.yaml")
-    parser.add_argument("--dry-run", action="store_true", help="Skip sending email, just print/save report")
+    parser.add_argument("--dry-run", action="store_true", help="Skip sending alert, just print/save report")
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -69,7 +69,9 @@ def main():
     print(f"\nReport written to {report_path}")
 
     if opportunities and not args.dry_run:
-        EmailAlerter().send(opportunities)
+        alerter = build_alerter(config)
+        if alerter:
+            alerter.send(opportunities)
 
 
 if __name__ == "__main__":

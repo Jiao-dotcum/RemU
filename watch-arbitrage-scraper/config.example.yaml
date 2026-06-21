@@ -37,3 +37,13 @@ html_sources: []
 #    seller_selector: ".seller-name"
 #    url_selector: "a.result-link"
 #    delay_seconds: 2
+
+# ── alerts ────────────────────────────────────────────────────────────────────
+# channel: ntfy      → free push notifications, no account needed (default)
+# channel: telegram  → Telegram bot (set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID env vars)
+# channel: email     → SMTP (set SMTP_HOST/PORT/USER/PASS/ALERT_EMAIL_TO env vars)
+# channel: none      → no alert, just write the JSON report
+alerts:
+  channel: ntfy
+  ntfy_topic: YOUR_SECRET_TOPIC   # pick any random string; subscribe to ntfy.sh/<topic> in the ntfy app
+  # ntfy_server: https://ntfy.sh  # optional: self-hosted ntfy instance
