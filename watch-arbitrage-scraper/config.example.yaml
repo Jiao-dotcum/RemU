@@ -1,0 +1,35 @@
+# Copy this to config.yaml and edit.
+
+watchlist:
+  - brand: Rolex
+    model: Submariner Date
+    reference: 126610LN
+  - brand: Omega
+    model: Speedmaster Professional Moonwatch
+    reference: 310.30.42.50.01.001
+  - brand: Rolex
+    model: GMT-Master II
+    reference: 126710BLRO
+
+thresholds:
+  min_abs_diff: 500   # USD - only flag if the spread is at least this much
+  min_pct_diff: 8      # percent - AND at least this much relative to the cheap price
+
+sources:
+  ebay: true                          # requires EBAY_CLIENT_ID / EBAY_CLIENT_SECRET env vars
+  manual_csv_path: watches_manual.csv  # optional: listings you logged by hand from sites
+                                       # that block automated requests (see README)
+
+# Only add a site here if you've personally verified its robots.txt allows
+# fetching the search/listing URL below for our user agent. Sites such as
+# Chrono24, Bob's Watches, Crown & Caliber, and WatchCharts block automated
+# requests outright (confirmed during development) and are NOT suitable
+# targets for this adapter -- log their listings via manual_csv_path instead.
+html_sources: []
+#  - name: example-dealer
+#    search_url_template: "https://example-dealer.com/search?q={reference}"
+#    listing_selector: "div.result-item"
+#    price_selector: ".price"
+#    seller_selector: ".seller-name"
+#    url_selector: "a.result-link"
+#    delay_seconds: 2
