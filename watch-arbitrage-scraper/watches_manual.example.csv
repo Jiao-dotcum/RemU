@@ -1,3 +1,8 @@
 reference,brand,model,price,currency,seller,url,source,condition
 126610LN,Rolex,Submariner Date,14200,USD,Bob's Watches,https://www.bobswatches.com/example-listing,bobswatches,pre-owned
 126610LN,Rolex,Submariner Date,15800,USD,Crown & Caliber,https://www.crownandcaliber.com/example-listing,crownandcaliber,pre-owned
+126610LN,Rolex,Submariner Date,14650,USD,jane_doe_watches,https://www.getbezel.com/example-listing,bezel,pre-owned
+310.30.42.50.01.001,Omega,Speedmaster Professional Moonwatch,5200,USD,Jomashop,https://www.jomashop.com/example-listing,jomashop,new
+310.30.42.50.01.001,Omega,Speedmaster Professional Moonwatch,6100,USD,WatchBox,https://www.watchbox.com/example-listing,watchbox,pre-owned
+126710BLRO,Rolex,GMT-Master II,18500,USD,seller123,https://www.chrono24.com/example-listing,chrono24,pre-owned
+126710BLRO,Rolex,GMT-Master II,17200,USD,john_smith,https://www.getbezel.com/example-listing-2,bezel,pre-owned

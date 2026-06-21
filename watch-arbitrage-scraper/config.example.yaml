@@ -16,15 +16,19 @@ thresholds:
   min_pct_diff: 8      # percent - AND at least this much relative to the cheap price
 
 sources:
-  ebay: true                          # requires EBAY_CLIENT_ID / EBAY_CLIENT_SECRET env vars
-  manual_csv_path: watches_manual.csv  # optional: listings you logged by hand from sites
-                                       # that block automated requests (see README)
+  # Every marketplace/seller checked so far (Bezel, Chrono24, Bob's Watches,
+  # Crown & Caliber, WatchBox, Jomashop, ChronExt, WatchCharts) returns
+  # HTTP 403 to a plain request -- they all block automated access outright.
+  # So there is no automated source by default: log prices you see on those
+  # sites yourself into manual_csv_path, and this tool does the cross-seller
+  # matching/alerting for you.
+  manual_csv_path: watches_manual.csv
 
 # Only add a site here if you've personally verified its robots.txt allows
-# fetching the search/listing URL below for our user agent. Sites such as
-# Chrono24, Bob's Watches, Crown & Caliber, and WatchCharts block automated
-# requests outright (confirmed during development) and are NOT suitable
-# targets for this adapter -- log their listings via manual_csv_path instead.
+# fetching the search/listing URL below for our user agent AND the site
+# doesn't otherwise block automated requests (no Cloudflare/WAF wall). None
+# of the marketplaces checked during development qualify -- use
+# manual_csv_path for those instead.
 html_sources: []
 #  - name: example-dealer
 #    search_url_template: "https://example-dealer.com/search?q={reference}"
