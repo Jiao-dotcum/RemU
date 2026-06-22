@@ -1,0 +1,49 @@
+# Copy this to config.yaml and edit.
+
+watchlist:
+  - brand: Rolex
+    model: Submariner Date
+    reference: 126610LN
+  - brand: Omega
+    model: Speedmaster Professional Moonwatch
+    reference: 310.30.42.50.01.001
+  - brand: Rolex
+    model: GMT-Master II
+    reference: 126710BLRO
+
+thresholds:
+  min_abs_diff: 500   # USD - only flag if the spread is at least this much
+  min_pct_diff: 8      # percent - AND at least this much relative to the cheap price
+
+sources:
+  # Every marketplace/seller checked so far (Bezel, Chrono24, Bob's Watches,
+  # Crown & Caliber, WatchBox, Jomashop, ChronExt, WatchCharts) returns
+  # HTTP 403 to a plain request -- they all block automated access outright.
+  # So there is no automated source by default: log prices you see on those
+  # sites yourself into manual_csv_path, and this tool does the cross-seller
+  # matching/alerting for you.
+  manual_csv_path: watches_manual.csv
+
+# Only add a site here if you've personally verified its robots.txt allows
+# fetching the search/listing URL below for our user agent AND the site
+# doesn't otherwise block automated requests (no Cloudflare/WAF wall). None
+# of the marketplaces checked during development qualify -- use
+# manual_csv_path for those instead.
+html_sources: []
+#  - name: example-dealer
+#    search_url_template: "https://example-dealer.com/search?q={reference}"
+#    listing_selector: "div.result-item"
+#    price_selector: ".price"
+#    seller_selector: ".seller-name"
+#    url_selector: "a.result-link"
+#    delay_seconds: 2
+
+# ── alerts ────────────────────────────────────────────────────────────────────
+# channel: ntfy      → free push notifications, no account needed (default)
+# channel: telegram  → Telegram bot (set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID env vars)
+# channel: email     → SMTP (set SMTP_HOST/PORT/USER/PASS/ALERT_EMAIL_TO env vars)
+# channel: none      → no alert, just write the JSON report
+alerts:
+  channel: ntfy
+  ntfy_topic: YOUR_SECRET_TOPIC   # pick any random string; subscribe to ntfy.sh/<topic> in the ntfy app
+  # ntfy_server: https://ntfy.sh  # optional: self-hosted ntfy instance
