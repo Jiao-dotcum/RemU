@@ -1,7 +1,7 @@
 # Watch Arbitrage Scraper
 
 Checks watch listings across sellers/marketplaces by reference number and
-emails you when the same watch is priced very differently in two places
+alerts you when the same watch is priced very differently in two places
 (buy low, sell high).
 
 ## Why there's no automated scraper for any marketplace
@@ -47,17 +47,20 @@ cp config.example.yaml config.yaml          # then edit your watchlist
 cp watches_manual.example.csv watches_manual.csv
 ```
 
-Environment variables for email alerts (set in your shell, never commit them):
+Pick an alert channel in `config.yaml` under `alerts.channel`:
 
-```bash
-# Gmail example — use an App Password, not your real password:
-# https://myaccount.google.com/apppasswords
-export SMTP_HOST=smtp.gmail.com
-export SMTP_PORT=587
-export SMTP_USER=you@gmail.com
-export SMTP_PASS=your-16-char-app-password
-export ALERT_EMAIL_TO=you@gmail.com
-```
+- **`ntfy` (default)** — zero setup. Pick any random string as `ntfy_topic`,
+  subscribe to `ntfy.sh/<topic>` in the free ntfy app (iOS/Android), done.
+- **`telegram`** — set `TELEGRAM_BOT_TOKEN` (from @BotFather) and
+  `TELEGRAM_CHAT_ID` env vars.
+- **`email`** — set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`,
+  `ALERT_EMAIL_TO` env vars. For Gmail: `SMTP_HOST=smtp.gmail.com`, and
+  `SMTP_PASS` must be an App Password (https://myaccount.google.com/apppasswords),
+  not your regular password.
+- **`none`** — just write the JSON report, no notification.
+
+Never commit credentials — they're all read from environment variables, not
+from `config.yaml`.
 
 ## Run it
 
@@ -66,8 +69,8 @@ python -m watcharb.run --config config.yaml
 ```
 
 Each run prints a summary, writes a JSON report to `reports/`, and — if any
-opportunity clears the thresholds in `config.yaml` — emails you. Use
-`--dry-run` to skip the email while testing.
+opportunity clears the thresholds in `config.yaml` — fires the configured
+alert channel. Use `--dry-run` to skip the alert while testing.
 
 ## How matching works
 
@@ -86,8 +89,8 @@ brand/model match.
 2. Append a row to `watches_manual.csv` for each listing you see (reference,
    brand, model, price, currency, seller, url, source, condition).
 3. Run `python -m watcharb.run --config config.yaml`.
-4. If a real spread shows up, you'll get the alert email; the JSON report in
-   `reports/` keeps a history of every run.
+4. If a real spread shows up, you'll get the alert on whichever channel you
+   configured; the JSON report in `reports/` keeps a history of every run.
 
 ## Adding a new source
 
