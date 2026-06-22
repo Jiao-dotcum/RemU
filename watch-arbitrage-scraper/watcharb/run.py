@@ -8,6 +8,7 @@ import yaml
 from watcharb.alerter import build_alerter
 from watcharb.matcher import find_arbitrage
 from watcharb.models import Listing
+from watcharb.sources.chrono24 import Chrono24Source
 from watcharb.sources.csv_source import CsvSource
 from watcharb.sources.ebay import EbaySource
 from watcharb.sources.html_source import GenericHtmlSource
@@ -17,6 +18,8 @@ def build_sources(config: dict) -> list:
     sources = []
     if config.get("sources", {}).get("ebay", False):
         sources.append(EbaySource())
+    if config.get("sources", {}).get("chrono24", False):
+        sources.append(Chrono24Source())
     csv_path = config.get("sources", {}).get("manual_csv_path")
     if csv_path and os.path.exists(csv_path):
         sources.append(CsvSource(csv_path))
